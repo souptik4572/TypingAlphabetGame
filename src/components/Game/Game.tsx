@@ -12,7 +12,7 @@ const Game = () => {
 			<Utility />
 			<Display />
 			<p>Time: 0.000s</p>
-			<p>My best time: 1.39s</p>
+			<p>My best time: 1.39s!</p>
 			<InputField />
 		</div>
 	);

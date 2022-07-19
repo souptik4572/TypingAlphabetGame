@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+.Display {
+	width: 40%;
+	height: 35%;
+	background-color: #ffffff;
+	margin: 0 auto;
+	border-radius: 30px;
+	display: grid;
+	place-items: center;
+	font-family: 'Poppins', sans-serif;
+	font-size: 2.5rem;
+}
+
+.success {
+	color: #558b2f;
+}
+
+.failure {
+	color: #b71c1c;
+}

@@ -3,11 +3,12 @@
 .App {
 	text-align: center;
 	font-family: 'Roboto', sans-serif;
-}
-
-.App-logo {
-	height: 40vmin;
-	pointer-events: none;
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	background-color: #130f40;
+	color: #fafafa;
 }
 
 @media (prefers-reduced-motion: no-preference) {

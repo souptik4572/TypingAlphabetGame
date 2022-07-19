@@ -1,0 +1,27 @@
+.InputField {
+
+}
+
+.InputField input {
+    height: 3rem;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-weight: bold;
+}
+
+.InputField input::placeholder {
+    text-align: center;
+}
+
+
+.InputField button {
+    height: 3.1rem;
+    width: 8rem;
+    border: none;
+    background-color: #e91e63;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}

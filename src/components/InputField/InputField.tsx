@@ -3,7 +3,8 @@ import './InputField.css';
 const InputField = () => {
 	return (
 		<div className='InputField'>
-			<h1>The input field comes here</h1>
+			<input type='text' placeholder='Type Here' size={60} />
+			<button>Reset</button>
 		</div>
 	);
 };
