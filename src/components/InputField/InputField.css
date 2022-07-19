@@ -8,6 +8,7 @@
     text-align: center;
     outline: none;
     font-weight: bold;
+    background-color: #fffde7;
 }
 
 .InputField input::placeholder {
@@ -16,7 +17,7 @@
 
 
 .InputField button {
-    height: 3.1rem;
+    height: 3.13rem;
     width: 8rem;
     border: none;
     background-color: #e91e63;
