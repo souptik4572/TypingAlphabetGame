@@ -5,5 +5,6 @@ export type CurrentCharState = {
 
 export type TimerState = {
 	timeMs: number;
-	timeSec: number;
+	isActive: boolean;
+	intervalId: NodeJS.Timeout | null;
 };

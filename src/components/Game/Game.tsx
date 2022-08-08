@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getNextChar } from '../../utils/getNextChar';
 import Display from '../Display/Display';
 import InputField from '../InputField/InputField';
 import { CurrentCharState, TimerState } from '../../types/state';
 import './Game.css';
 
-const MAX_CHAR_COUNT = 20;
+const MAX_CHAR_COUNT = 2;
 
 const getCurrentChar = (
 	isGameRunning: boolean,
@@ -33,8 +33,27 @@ const Game = () => {
 	const [currentChar, setCurrentChar] = useState<CurrentCharState>(getFreshCurrentChar());
 	const [timer, setTimer] = useState<TimerState>({
 		timeMs: 0,
-		timeSec: 0,
+		isActive: false,
+		intervalId: null,
 	});
+	const startTimer = (): NodeJS.Timer => {
+		const intervalId = setInterval(() => {
+			setTimer((timer): TimerState => ({ ...timer, timeMs: timer.timeMs + 1 }));
+		}, 10);
+		return intervalId;
+	};
+	const stopTimer = (intervalId: NodeJS.Timer | null): void => {
+		if(intervalId === null) return;
+		clearInterval(intervalId);
+	};
+	useEffect(() => {
+		if (currentChar.remCharCount === MAX_CHAR_COUNT - 1) {
+			const intervalId = startTimer();
+			setTimer((timer) => ({ ...timer, intervalId }));
+		} else if (currentChar.remCharCount === 0) {
+			stopTimer(timer.intervalId);
+		}
+	}, [currentChar.remCharCount]);
 	const handleInputFieldChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		event.target.value = event.target.value.toUpperCase();
 		setInputValue(event.target.value);
@@ -60,7 +79,7 @@ const Game = () => {
 			<p>Typing game to see how fast you type</p>
 			<p>Timer starts when you do 😁</p>
 			<Display textValue={currentChar.char} />
-			<p>Time: 0.000s</p>
+			<p>Time: {timer.timeMs}s</p>
 			<p>My best time: 1.39s!</p>
 			<InputField
 				isGameRunning={isGameRunning}
