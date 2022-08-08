@@ -1,5 +1,3 @@
-import { getNextChar } from '../../utils/getNextChar';
-
 import './Display.css';
 
 const SUCCESS_CLASS = 'success';
