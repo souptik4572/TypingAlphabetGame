@@ -1,11 +1,8 @@
 import './Display.css';
+import { DisplayProps } from '../../types/props'
 
 const SUCCESS_CLASS = 'success';
 const FAILURE_CLASS = 'failure';
-
-type DisplayProps = {
-	textValue: string;
-};
 
 const Display = ({ textValue }: DisplayProps) => {
 	return (

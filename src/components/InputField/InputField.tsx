@@ -1,12 +1,6 @@
 import { useEffect, useRef } from 'react';
 import './InputField.css';
-
-type InputFieldProps = {
-	isGameRunning: boolean;
-	value: string;
-	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	handleGameReset: () => void;
-};
+import { InputFieldProps } from '../../types/props';
 
 const InputField = ({ isGameRunning, value, handleChange, handleGameReset }: InputFieldProps) => {
 	const charInput = useRef<HTMLInputElement>(null);
