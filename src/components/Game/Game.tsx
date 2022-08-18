@@ -3,6 +3,7 @@ import { getNextChar } from '../../utils/getNextChar';
 import Display from '../Display/Display';
 import InputField from '../InputField/InputField';
 import { CurrentCharState, TimerState } from '../../types/state';
+import { startTimer, stopTimer } from '../../utils/timer';
 import './Game.css';
 
 const MAX_CHAR_COUNT = 5;
@@ -44,19 +45,9 @@ const Game = () => {
 		isActive: false,
 		intervalId: null,
 	});
-	const startTimer = (): NodeJS.Timer => {
-		const intervalId = setInterval(() => {
-			setTimer((timer): TimerState => ({ ...timer, timeMs: timer.timeMs + 1 }));
-		}, 10);
-		return intervalId;
-	};
-	const stopTimer = (intervalId: NodeJS.Timer | null): void => {
-		if (intervalId === null) return;
-		clearInterval(intervalId);
-	};
 	useEffect(() => {
 		if (currentChar.remCharCount === MAX_CHAR_COUNT - 1) {
-			const intervalId = startTimer();
+			const intervalId = startTimer(setTimer);
 			setTimer((timer) => ({ ...timer, intervalId }));
 		} else if (currentChar.remCharCount === 0) {
 			stopTimer(timer.intervalId);
