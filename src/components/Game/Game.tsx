@@ -5,17 +5,25 @@ import InputField from '../InputField/InputField';
 import { CurrentCharState, TimerState } from '../../types/state';
 import './Game.css';
 
-const MAX_CHAR_COUNT = 2;
+const MAX_CHAR_COUNT = 5;
 
 const getCurrentChar = (
 	isGameRunning: boolean,
-	previousCurrentChar: CurrentCharState
+	previousCurrentChar: CurrentCharState,
+	isLastMatching: boolean = true
 ): CurrentCharState => {
 	if (isGameRunning)
 		return {
 			char: getNextChar(previousCurrentChar.char),
 			remCharCount: previousCurrentChar.remCharCount - 1,
 		};
+	if (!isGameRunning && !isLastMatching) {
+		console.log(previousCurrentChar);
+		return {
+			char: 'Failure!',
+			remCharCount: 0,
+		};
+	}
 	return {
 		char: 'Success!',
 		remCharCount: 0,
@@ -43,7 +51,7 @@ const Game = () => {
 		return intervalId;
 	};
 	const stopTimer = (intervalId: NodeJS.Timer | null): void => {
-		if(intervalId === null) return;
+		if (intervalId === null) return;
 		clearInterval(intervalId);
 	};
 	useEffect(() => {
@@ -57,7 +65,8 @@ const Game = () => {
 	const handleInputFieldChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		event.target.value = event.target.value.toUpperCase();
 		setInputValue(event.target.value);
-		if (event.target.value.slice(-1) === currentChar.char) {
+		const isLastMatching = event.target.value.slice(-1) === currentChar.char;
+		if (isLastMatching) {
 			if (currentChar.remCharCount === 1) {
 				setIsGameRunning(false);
 				setCurrentChar(getCurrentChar(false, currentChar));
@@ -66,6 +75,10 @@ const Game = () => {
 			setCurrentChar((previousCurrentChar) => {
 				return getCurrentChar(isGameRunning, previousCurrentChar);
 			});
+		} else {
+			setIsGameRunning(false);
+			stopTimer(timer.intervalId);
+			setCurrentChar(getCurrentChar(false, currentChar, isLastMatching));
 		}
 	};
 	const handleGameReset = (): void => {
