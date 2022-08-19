@@ -95,6 +95,7 @@ const Game = () => {
 			<InputField
 				isGameRunning={isGameRunning}
 				value={inputValue}
+				currentChar={currentChar.char}
 				handleGameReset={handleGameReset}
 				handleChange={handleInputFieldChange}
 			/>
