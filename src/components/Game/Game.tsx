@@ -5,6 +5,7 @@ import InputField from '../InputField/InputField';
 import { CurrentCharState, TimerState } from '../../types/state';
 import { startTimer, stopTimer } from '../../utils/timer';
 import './Game.css';
+import { getFromLocal, setInLocal } from '../../utils/localStorage';
 
 const MAX_CHAR_COUNT = 5;
 
@@ -40,6 +41,7 @@ const Game = () => {
 	const [isGameRunning, setIsGameRunning] = useState<boolean>(true);
 	const [inputValue, setInputValue] = useState<string>('');
 	const [currentChar, setCurrentChar] = useState<CurrentCharState>(getFreshCurrentChar());
+	const [bestTime, setBestTime] = useState<number | null>(getFromLocal());
 	const [timer, setTimer] = useState<TimerState>({
 		timeMs: 0,
 		isActive: false,
@@ -51,6 +53,11 @@ const Game = () => {
 			setTimer((timer) => ({ ...timer, intervalId }));
 		} else if (currentChar.remCharCount === 0) {
 			stopTimer(timer.intervalId);
+			if (bestTime === null || bestTime > timer.timeMs) {
+				console.log(timer.timeMs);
+				setBestTime(timer.timeMs);
+				setInLocal(timer.timeMs);
+			}
 		}
 	}, [currentChar.remCharCount]);
 	const handleInputFieldChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -79,12 +86,12 @@ const Game = () => {
 	};
 	return (
 		<div className='Game'>
-			<h1>Type The Alphabet</h1>
+			<h1>Type The Alphabets</h1>
 			<p>Typing game to see how fast you type</p>
 			<p>Timer starts when you do 😁</p>
 			<Display textValue={currentChar.char} />
 			<p>Time: {timer.timeMs}s</p>
-			<p>My best time: 1.39s!</p>
+			{!!bestTime && <p>My best time: {bestTime}s!</p>}
 			<InputField
 				isGameRunning={isGameRunning}
 				value={inputValue}
