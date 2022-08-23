@@ -59,7 +59,7 @@ const Game = () => {
 				setInLocal(timer.timeMs);
 			}
 		}
-	}, [currentChar.remCharCount]);
+	}, [currentChar.remCharCount, bestTime, timer.intervalId, timer.timeMs]);
 	const handleInputFieldChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		event.target.value = event.target.value.toUpperCase();
 		setInputValue(event.target.value);
