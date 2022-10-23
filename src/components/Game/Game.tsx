@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { getNextChar } from '../../utils/getNextChar';
 import Display from '../Display/Display';
 import InputField from '../InputField/InputField';
@@ -37,7 +37,7 @@ const getFreshCurrentChar = (): CurrentCharState => ({
 	remCharCount: MAX_CHAR_COUNT,
 });
 
-const Game = () => {
+const Game: FC = () => {
 	const [isGameRunning, setIsGameRunning] = useState<boolean>(true);
 	const [inputValue, setInputValue] = useState<string>('');
 	const [currentChar, setCurrentChar] = useState<CurrentCharState>(getFreshCurrentChar());
@@ -59,7 +59,8 @@ const Game = () => {
 				setInLocal(timer.timeMs);
 			}
 		}
-	}, [currentChar.remCharCount, bestTime, timer.intervalId, timer.timeMs]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentChar.remCharCount]);
 	const handleInputFieldChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		event.target.value = event.target.value.toUpperCase();
 		setInputValue(event.target.value);

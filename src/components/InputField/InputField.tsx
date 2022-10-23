@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, FC } from 'react';
 import './InputField.css';
 import { InputFieldProps } from '../../types/props';
 
-const InputField = ({
+const InputField: FC<InputFieldProps> = ({
 	isGameRunning,
 	value,
 	currentChar,
 	handleChange,
 	handleGameReset,
-}: InputFieldProps) => {
+}) => {
 	const charInput = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		if (charInput.current) charInput.current.focus();
