@@ -7,7 +7,7 @@ import { startTimer, stopTimer } from '../../utils/timer';
 import './Game.css';
 import { getFromLocal, setInLocal } from '../../utils/localStorage';
 
-const MAX_CHAR_COUNT = 5;
+const MAX_CHAR_COUNT: number = Number(process.env.REACT_APP_CHAR_COUNT);
 
 const getCurrentChar = (
 	isGameRunning: boolean,
@@ -37,16 +37,18 @@ const getFreshCurrentChar = (): CurrentCharState => ({
 	remCharCount: MAX_CHAR_COUNT,
 });
 
+const getFreshTimer = () => ({
+	timeMs: 0,
+	isActive: false,
+	intervalId: null,
+});
+
 const Game: FC = () => {
 	const [isGameRunning, setIsGameRunning] = useState<boolean>(true);
 	const [inputValue, setInputValue] = useState<string>('');
 	const [currentChar, setCurrentChar] = useState<CurrentCharState>(getFreshCurrentChar());
 	const [bestTime, setBestTime] = useState<number | null>(getFromLocal());
-	const [timer, setTimer] = useState<TimerState>({
-		timeMs: 0,
-		isActive: false,
-		intervalId: null,
-	});
+	const [timer, setTimer] = useState<TimerState>(getFreshTimer());
 	useEffect(() => {
 		if (currentChar.remCharCount === MAX_CHAR_COUNT - 1) {
 			const intervalId = startTimer(setTimer);
@@ -59,7 +61,7 @@ const Game: FC = () => {
 				setInLocal(timer.timeMs);
 			}
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentChar.remCharCount]);
 	const handleInputFieldChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		event.target.value = event.target.value.toUpperCase();
@@ -81,9 +83,12 @@ const Game: FC = () => {
 		}
 	};
 	const handleGameReset = (): void => {
-		setInputValue('');
+		setInputValue(() => {
+			return '';
+		});
 		setCurrentChar(getFreshCurrentChar());
 		setIsGameRunning(true);
+		setTimer(() => getFreshTimer());
 	};
 	return (
 		<div className='Game'>
